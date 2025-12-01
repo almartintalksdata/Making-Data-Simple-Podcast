@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Making Data Simple Podcast</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: #6366f1;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: #111827;
+      --card: #020617;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, var(--bg) 40%, #020617 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 80px;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px 20px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(79,70,229,0.18), rgba(15,23,42,0.9));
+      border: 1px solid rgba(148,163,184,0.25);
+      box-shadow:
+        0 18px 40px rgba(15,23,42,0.85),
+        0 0 0 1px rgba(15,23,42,0.6);
+      backdrop-filter: blur(18px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.6);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+    }
+
+    .title {
+      font-size: clamp(32px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .title span {
+      background: linear-gradient(135deg, #a855f7, #4f46e5, #22c55e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .subscribe {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-soft), var(--accent));
+      box-shadow: 0 12px 30px rgba(79,70,229,0.55);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(79,70,229,0.7);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.8);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(248,250,252,0.7);
+      color: var(--text);
+      background: rgba(15,23,42,1);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 800px) {
+      .section-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header {
+        padding: 20px 16px;
+      }
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left, rgba(79,70,229,0.3), rgba(15,23,42,0.96));
+      border-radius: 20px;
+      padding: 20px 18px;
+      border: 1px solid rgba(31,41,55,0.9);
+      box-shadow:
+        0 14px 30px rgba(15,23,42,1),
+        0 0 0 1px rgba(15,23,42,0.8);
+    }
+
+    .panel h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
+    .panel p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .small-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.9);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .forms {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 9px 11px;
+      font-size: 14px;
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #6b7280;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(99,102,241,0.5);
+      background: #020617;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .checkbox-row label {
+      font-size: 13px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: auto;
+      height: auto;
+      margin: 0;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(31,41,55,0.9);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HERO -->
+    <header>
+      <div class="hero-row">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Making Data Simple · Podcast</span>
+          </div>
+          <h1 class="title">
+            Conversations that make <span>data</span> feel human.
+          </h1>
+          <p class="subtitle">
+            Smart, unpolished conversations with leaders, builders, and operators using data to ship real outcomes — not just dashboards.
+          </p>
+        </div>
+        <div>
+          <div class="small-label">Subscribe</div>
+          <div class="subscribe">
+            <a class="btn btn-primary" href="APPLE_PODCASTS_LINK" target="_blank" rel="noreferrer">
+              Listen on Apple Podcasts
+            </a>
+            <a class="btn btn-ghost" href="SPOTIFY_LINK" target="_blank" rel="noreferrer">
+              Listen on Spotify
+            </a>
+            <a class="btn btn-ghost" href="RSS_FEED_LINK" target="_blank" rel="noreferrer">
+              RSS
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BODY -->
+    <div class="section-grid">
+      <!-- LEFT: Latest update + calendar -->
+      <section class="panel">
+        <div class="small-label">This week</div>
+        <h2>Latest episode highlight</h2>
+        <p>
+          Drop in 2–3 sentences here about the latest episode: guest name, topic, and why it matters.
+          Update this text whenever a new episode goes live.
+        </p>
+
+        <div class="pill-row">
+          <div class="pill">🎙 Weekly episodes</div>
+          <div class="pill">🧠 Real-world data stories</div>
+          <div class="pill">🤝 Operators, builders, leaders</div>
+        </div>
+
+        <div style="margin-top: 18px;">
+          <div class="small-label">Book time</div>
+          <p>
+            For partners, sponsors, and high-intent guests, grab time directly on the calendar.
+          </p>
+          <a class="btn btn-primary" href="CALENDLY_OR_BOOKING_LINK" target="_blank" rel="noreferrer">
+            Open calendar
+          </a>
+        </div>
+      </section>
+
+      <!-- RIGHT: Forms -->
+      <section class="panel">
+        <div class="forms">
+          <!-- LISTENER SIGNUP -->
+          <div>
+            <div class="small-label">Stay in the loop</div>
+            <h2>Get episodes & updates</h2>
+            <p>Short, occasional emails with new episodes, live events, and behind‑the‑scenes notes.</p>
+
+            <form action="https://api.web3forms.com/submit" method="POST">
+              <!-- Replace with your own Web3Forms access key -->
+              <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+              <input type="hidden" name="subject" value="Making Data Simple – Listener Signup" />
+              <!-- Optional: change to your own redirect URL -->
+              <input type="hidden" name="redirect" value="THANK_YOU_PAGE_OR_LEAVE_BLANK" />
+
+              <div>
+                <label for="listener-name">
+                  Name
+                </label>
+                <input id="listener-name" type="text" name="name" placeholder="Your name" required />
+              </div>
+
+              <div>
+                <label for="listener-email">
+                  Email
+                </label>
+                <input id="listener-email" type="email" name="email" placeholder="you@example.com" required />
+              </div>
+
+              <div class="checkbox-row">
+                <label>
+                  <input type="checkbox" name="role" value="listener" checked />
+                  I’m a listener
+                </label>
+                <label>
+                  <input type="checkbox" name="role" value="potential-guest" />
+                  I might want to be a guest
+                </label>
+              </div>
+
+              <div class="submit-row">
+                <button type="submit" class="btn btn-primary">
+                  Join the list
+                </button>
+                <span class="helper-text">
+                  Goes to our team & CRM. No spam, ever.
+                </span>
+              </div>
+            </form>
+          </div>
+
+          <!-- GUEST REQUEST -->
+          <div>
+            <div class="small-label">Be on the show</div>
+            <h2>Request to be a guest</h2>
+            <p>If you or your exec should be on Making Data Simple, share a quick pitch below.</p>
+
+            <form action="https://api.web3forms.com/submit" method="POST">
+              <!-- Same access key; you can filter by subject in HubSpot/email -->
+              <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+              <input type="hidden" name="subject" value="Making Data Simple – Guest Request" />
+              <input type="hidden" name="redirect" value="THANK_YOU_PAGE_OR_LEAVE_BLANK" />
+
+              <div>
+                <label for="guest-name">
+                  Name
+                </label>
+                <input id="guest-name" type="text" name="name" placeholder="Your name" required />
+              </div>
+
+              <div>
+                <label for="guest-email">
+                  Email
+                </label>
+                <input id="guest-email" type="email" name="email" placeholder="you@example.com" required />
+              </div>
+
+              <div>
+                <label for="guest-company">
+                  Company / org
+                </label>
+                <input id="guest-company" type="text" name="company" placeholder="Company or organization" />
+              </div>
+
+              <div>
+                <label for="guest-role">
+                  Role / title
+                </label>
+                <input id="guest-role" type="text" name="role_title" placeholder="VP of Data, Founder, etc." />
+              </div>
+
+              <div>
+                <label for="guest-links">
+                  Links
+                  <span style="opacity: 0.7; font-weight: 400;">(LinkedIn, site, product)</span>
+                </label>
+                <input id="guest-links" type="text" name="links" placeholder="https://linkedin.com/in/you" />
+              </div>
+
+              <div>
+                <label for="guest-pitch">
+                  Why this conversation?
+                </label>
+                <textarea id="guest-pitch" name="pitch" placeholder="What should we dig into, and who will care?" required></textarea>
+              </div>
+
+              <div class="submit-row">
+                <button type="submit" class="btn btn-primary">
+                  Submit request
+                </button>
+                <span class="helper-text">
+                  We review every submission and reply if there’s a fit.
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© <span id="year"></span> Making Data Simple.</div>
+      <div class="footer-links">
+        <a href="https://podcasts.apple.com/us/podcast/making-data-simple/id605818735" target="_blank" rel="noreferrer">Apple</a>
+        <a href="https://open.spotify.com/show/6i8sGQUN5PNzyExrQJtndx?si=ebce7a1465b04e8c" target="_blank" rel="noreferrer">Spotify</a>
+        <a href="https://feeds.buzzsprout.com/214745.rss" target="_blank" rel="noreferrer">RSS</a>
+        <a href="almartintalksdata@gmail.com" target="_blank" rel="noreferrer">Contact</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Set current year automatically
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
